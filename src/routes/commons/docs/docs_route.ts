@@ -1,8 +1,7 @@
 import { Router } from 'express';
 import swaggerUi from 'swagger-ui-express';
 import pkg from '@packagejson';
-
-import specs from '@utils/swagger/postman_to_swagger';
+import swaggerSpec from '@utils/swagger/swagger-jsdoc-config';
 
 const router = Router();
 
@@ -12,12 +11,8 @@ const options = {
     customfavIcon: '/assets/images/favicons/favicon.ico',
 };
 
-// API Generated Doc
-const doc = async () => {
-    router.use('/', swaggerUi.serve);
-    router.get('/', swaggerUi.setup(await specs(), options));
-};
-
-doc();
+// Swagger UI with JSDoc
+router.use('/', swaggerUi.serve);
+router.get('/', swaggerUi.setup(swaggerSpec, options));
 
 export default router;

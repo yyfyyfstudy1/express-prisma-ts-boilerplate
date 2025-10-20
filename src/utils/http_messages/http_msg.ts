@@ -39,4 +39,12 @@ export default {
         };
         return { httpStatusCode: 422, data: params };
     },
+    http404(customMsg: string) {
+        const params = {
+            success: false,
+            message: customMsg || 'Falha',
+            error: 'error' || null,
+        };
+        return { httpStatusCode: 404, data: params };
+    },
 };

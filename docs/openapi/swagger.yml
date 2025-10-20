@@ -33,6 +33,7 @@ tags:
   - name: Client > User > Auth > Login
   - name: Client > User > Auth > Forgot Password
   - name: Client > User > Me
+  - name: Client > Prescription
   - name: Admin
   - name: Admin > Users Management
 paths:
@@ -67,10 +68,10 @@ paths:
             schema:
               type: object
               example:
-                email: vincent.queimado@gmail.com
-                name: vincent
+                email: johndoe@sample.com
+                name: johndoe
                 phone: (81) 99999-9999
-                password: '1234'
+                password: Johndoe@1234
       security:
         - noauthAuth: []
       parameters:
@@ -99,7 +100,7 @@ paths:
           in: query
           schema:
             type: string
-          example: johndoe10@sample.com
+          example: johndoe@sample.com
         - name: token
           in: query
           schema:
@@ -256,6 +257,121 @@ paths:
           schema:
             type: string
           example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /client/prescription:
+    get:
+      tags:
+        - Client > Prescription
+      summary: Get All Prescriptions (Filter by Patient)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: patientId
+          in: query
+          schema:
+            type: string
+          description: Filter by patient ID
+          example: ':patientId'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - Client > Prescription
+      summary: Create Prescription
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                patientId: patient-uuid
+                docterId: doctor-uuid
+                content: 阿莫西林 500mg，一日三次，饭后服用
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /client/prescription/{id}:
+    get:
+      tags:
+        - Client > Prescription
+      summary: Get One Prescription
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Prescription ID
+          example: prescription-uuid
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    put:
+      tags:
+        - Client > Prescription
+      summary: Update Prescription
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                content: 更新后的处方内容
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Prescription ID
+          example: prescription-uuid
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Client > Prescription
+      summary: Delete Prescription
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Prescription ID
+          example: prescription-uuid
       responses:
         '200':
           description: Successful response
