@@ -51,16 +51,16 @@ export default async (data: any) => {
     // Delete some user datas
     delete registeredUser.tokenOfRegisterConfirmation;
 
-    // Send Email
-    if (!config.isTest && constEmail.IS_NOTIFICATE.welcome) {
-        const sended = await sendEmail(registeredUser);
-        if (!sended)
-            return httpMsg.http422(
-                constError.REGISTER_ERROR_MSG.failToRegister,
-                constError.ERROR_CODE.register,
-            );
-        registeredUser.isEmailNotif = constEmail.IS_NOTIFICATE.welcome;
-    }
+    // Send Email - 已禁用邮件通知
+    // if (!config.isTest && constEmail.IS_NOTIFICATE.welcome) {
+    //     const sended = await sendEmail(registeredUser);
+    //     if (!sended)
+    //         return httpMsg.http422(
+    //             constError.REGISTER_ERROR_MSG.failToRegister,
+    //             constError.ERROR_CODE.register,
+    //         );
+    //     registeredUser.isEmailNotif = constEmail.IS_NOTIFICATE.welcome;
+    // }
 
     // Success HTTP return
     return httpMsg.http201(registeredUser);
@@ -131,6 +131,10 @@ const createUsr = async (datas: any) => {
     // Create user tokens
     datas.tokenOfRegisterConfirmation = randtoken.suid(16);
     datas.tokenOfResetPassword = randtoken.suid(16);
+    
+    // 设置用户为已激活状态（禁用邮件验证后直接激活）
+    datas.isRegistered = true;
+    datas.isDisabled = false;
 
     // Create user
     const created = await createUser(datas, select);

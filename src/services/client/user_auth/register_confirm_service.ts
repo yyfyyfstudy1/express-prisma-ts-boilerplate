@@ -37,20 +37,20 @@ export default async (data: any) => {
             constError.ERROR_CODE.registerConfirm,
         );
 
-    // Send Email
-    if (!config.isTest && constEmail.IS_NOTIFICATE.emailVerify) {
-        const sended = await sendEmail(user.data);
-        if (!sended)
-            return httpMsg.http422(
-                constError.REGISTER_CONFIRM_MSG.failToConfirm,
-                constError.ERROR_CODE.registerConfirm,
-            );
-    }
+    // Send Email - 已禁用
+    // if (!config.isTest && constEmail.IS_NOTIFICATE.emailVerify) {
+    //     const sended = await sendEmail(user.data);
+    //     if (!sended)
+    //         return httpMsg.http422(
+    //             constError.REGISTER_CONFIRM_MSG.failToConfirm,
+    //             constError.ERROR_CODE.registerConfirm,
+    //         );
+    // }
 
     return httpMsg.http200({
         email: user.data.email,
         isRegistered: true,
-        isEmailNotif: constEmail.IS_NOTIFICATE.emailVerify,
+        isEmailNotif: false,
     });
 };
 
